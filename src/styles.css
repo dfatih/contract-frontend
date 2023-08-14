@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-radio-button.mat-primary {
+  color: #0A58A5;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-label-content {
+  color: #0A58A5;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #0A58A5;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  color: #0A58A5;
+  background-color: #0A58A5;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: #0A58A5;
+}
+
+.mat-checkbox-ripple {
+  display: none;
+}

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Sondervereinbarung bearbeiten</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup" *ngIf="isFormGroupReady">
+    <mat-form-field appearance="fill">
+      <mat-label>Titel</mat-label>
+      <input type="text" matInput formControlName="title" placeholder="z.B. Vereinbarung 1" required>
+      <mat-error>Es wird ein Titel benötigt.</mat-error>
+    </mat-form-field>
+    <br/>
+    <mat-form-field appearance="fill" style="width: 250px">
+      <mat-label>Inhalt</mat-label>
+      <textarea matInput formControlName="content"
+                placeholder="Vereinbarung hier einfügen..." rows="20"></textarea>
+      <mat-error>Es wird eine Vereinbarungsinhalt benötigt.</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Abbrechen</button>
+  <button mat-raised-button type="submit" (click)="submitSpecialAgreement()"  [disabled]="!formGroup.valid">Speichern</button>
+</div>

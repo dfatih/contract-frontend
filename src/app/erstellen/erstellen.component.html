@@ -1,0 +1,505 @@
+<!--Tabs-->
+<link rel="stylesheet" href="erstellen.component.css">
+<script src="erstellen.component.ts"></script>
+<mat-progress-bar mode="indeterminate" *ngIf="!decrypted"></mat-progress-bar>
+<ngcontainer *ngIf="decrypted">
+  <mat-tab-group dynamicHeight mat-stretch-tabs class="example-stretched-tabs top-box-shadow" backgroundColor="primary"
+                 [(selectedIndex)]="tabIndex" animationDuration="0">
+    <!--First tab-->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        VERSION
+      </ng-template>
+      <hr/>
+      <!--Tab content-->
+      <vertragsversion></vertragsversion>
+      <!--Next tab button-->
+      <div class="button-right">
+        <button mat-fab color="primary" class="mat-elevation-z0" (click)="nextTabAndLoadParagraphs()"
+                [disabled]="sessionService.getSession().selectedVersionTemplateName === undefined && contract.versionTemplateName === undefined">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </mat-tab>
+    <!--Second tab-->
+    <mat-tab
+      [disabled]="isNew || (sessionService.getSession().currentContract.contractVersionName !== sessionService.getSession().selectedContractVersionName) || (sessionService.getSession().currentContract.versionTemplateName !== sessionService.getSession().selectedVersionTemplateName)">
+      <ng-template mat-tab-label>
+        PARTNER
+      </ng-template>
+      <hr/>
+      <!--Tab content-->
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="card-container">
+          <mat-card class="employer-card">
+            <br/>
+            <div style="text-align:center">
+              <mat-card-title>
+                ARBEITGEBER
+              </mat-card-title>
+            </div>
+            <br/>
+            <mat-card-actions>
+              <form [formGroup]="firstFormGroup" *ngIf="isFirstFormGroupReady">
+                <p class="centered-input">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Firma</mat-label>
+                    <mat-select formControlName="companyCtrl" required>
+                      <mat-option *ngFor="let company of companies" (click)="setLocations(company)" [value]="company">
+                        {{company.shortName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+                <p class="centered-input">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Standort</mat-label>
+                    <mat-select formControlName="locationCtrl" [disabled]="!isCompanySelected" required>
+                      <mat-option *ngFor="let location of locations" [value]="location">
+                        {{location.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+              </form>
+            </mat-card-actions>
+          </mat-card>
+          <mat-card class="employee-card">
+            <br/>
+            <div style="text-align:center">
+              <mat-card-title>
+                ARBEITNEHMER
+              </mat-card-title>
+            </div>
+            <br/>
+            <mat-card-actions>
+              <form [formGroup]="secondFormGroup" *ngIf="isSecondFormGroupReady">
+                <div class="gap-between-inputs centered-input">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Anrede</mat-label>
+                    <mat-select formControlName="salutation" required>
+                      <mat-option *ngFor="let salutation of salutations" [value]="salutation.value">
+                        {{salutation.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Titel</mat-label>
+                    <mat-select formControlName="degree">
+                      <mat-option *ngFor="let degree of degrees" [value]="degree.value">
+                        {{degree.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="gap-between-inputs centered-input">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Vorname</mat-label>
+                    <input matInput formControlName="firstname" placeholder="Vorname" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Nachname</mat-label>
+                    <input matInput formControlName="surname" placeholder="Nachname" required>
+                  </mat-form-field>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <div *ngIf="!alternativeAddressInput">
+                  <div class="gap-between-inputs centered-input">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Straße</mat-label>
+                      <input matInput formControlName="street" placeholder="Straße">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Nr.</mat-label>
+                      <input matInput formControlName="streetnumber" placeholder="Nr.">
+                    </mat-form-field>
+                  </div>
+                  <div class="gap-between-inputs centered-input">
+                    <mat-form-field appearance="fill">
+                      <mat-label>PLZ</mat-label>
+                      <input matInput formControlName="zipcode" placeholder="PLZ">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Ort</mat-label>
+                      <input matInput formControlName="residence" placeholder="Ort">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div *ngIf="alternativeAddressInput">
+                  <div class="gap-between-inputs centered-input">
+                    <mat-form-field appearance="fill" style="width: 83%">
+                      <mat-label>Adresse</mat-label>
+                      <textarea matInput formControlName="firstRow" placeholder="Adresse"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </form>
+
+              <mat-checkbox style="margin-left: 45px"
+                            (change)="this.toggleAlternativeAddressInput()"
+                            [checked]="alternativeAddressInput" color="primary">alternative Adresseingabe
+              </mat-checkbox>
+
+            </mat-card-actions>
+            <br/>
+            <br/>
+          </mat-card>
+        </div>
+        <!--Previous tab button-->
+        <div class="button-left">
+          <button mat-fab color="primary" class="mat-elevation-z4" (click)="previousTab()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+        <!--Next tab button-->
+        <div class="button-right">
+          <button type="submit" mat-fab color="primary" class="mat-elevation-z4" (click)="nextTab()"
+                  [disabled]="!firstFormGroup.valid || !secondFormGroup.valid">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-tab>
+    <!--Third tab-->
+    <mat-tab
+      [disabled]="isNew || (sessionService.getSession().currentContract.contractVersionName !== sessionService.getSession().selectedContractVersionName) || (sessionService.getSession().currentContract.versionTemplateName !== sessionService.getSession().selectedVersionTemplateName)">
+      <ng-template mat-tab-label>
+        INHALT
+      </ng-template>
+      <hr/>
+      <!--Tab content-->
+      <form [formGroup]="fourthFormGroup" (ngSubmit)="onSubmit()" autocomplete="off">
+        <mat-stepper orientation="vertical" [linear]="isNew || templateChanged">
+          <div *ngFor="let paragraph of cleanParagraphs">
+            <!--n-th step-->
+            <mat-step [stepControl]="fourthFormGroup.controls[paragraph.paragraphNumber]"
+                      [completed]="fourthFormGroup.get(paragraph.paragraphNumber).valid"
+                      *ngIf="(paragraph.contentFields !== undefined && paragraph.contentFields.length !== 0) || (paragraph.optionalContents !== undefined && paragraph.optionalContents.length !== 0)">
+              <!--Stepper label-->
+              <ng-template matStepLabel>
+                <div class="paragraph-number">§ {{paragraph.paragraphNumber}}</div>
+                <div class="paragraph-title">{{paragraph.paragraphTitle}}</div>
+              </ng-template>
+              <!--Stepper content-->
+              <div class="content-card">
+                <mat-card class="card-shadow">
+                  <mat-card-actions>
+                    <div class="content-input-gap">
+                      <!--mandatory inputfields-->
+                      <div style="display: inline" *ngFor="let inputfield of paragraph.contentFields">
+                        <mat-form-field appearance="fill"
+                                        *ngIf="inputfield.fieldType.match('TEXT')">
+                          <mat-label>{{inputfield.fieldName}}</mat-label>
+                          <input
+                            [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName]"
+                            matInput matTooltip="{{inputfield.fieldDescription}}"
+                            placeholder="{{inputfield.fieldName}}" required>
+                          <mat-error
+                            *ngIf="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName].invalid">
+                            Dieses Feld ist ein Pflichtfeld.
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field
+                          *ngIf="inputfield.fieldType.match('DATUM')"
+                          appearance="fill" (click)="picker2.open()">
+                          <mat-label>{{inputfield.fieldName}}</mat-label>
+                          <input style="color: black" matInput matTooltip="{{inputfield.fieldDescription}}"
+                                 placeholder="TT.MM.JJJJ"
+                                 [matDatepicker]="picker2"
+                                 [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName]"
+                                 id="endDateInput2" disabled required>
+                          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                          <mat-error
+                            *ngIf="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName].invalid">
+                            Dieses Feld ist ein Pflichtfeld.
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" *ngIf="inputfield.fieldType.match('AUSWAHL')">
+                          <mat-select
+                            [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName]"
+                            matTooltip="{{inputfield.fieldDescription}}" required>
+                            <mat-option *ngFor="let fieldOption of inputfield.fieldOptions" [value]="fieldOption">
+                              {{fieldOption}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error
+                            *ngIf="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][inputfield.formControlName].invalid">
+                            Dieses Feld ist ein Pflichtfeld.
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-actions>
+                  <mat-card-actions>
+                    <div class="indentation" *ngIf="optionalContentNotNull(paragraph)"><h4><b>Optionale
+                      Paragrapheninhalte:</b></h4></div>
+                    <!--optional content-->
+                    <div *ngFor="let optional of paragraph.optionalContents; last as isLast">
+                      <mat-accordion multi="true">
+                        <mat-expansion-panel class="mat-elevation-z0" hideToggle
+                                             [disabled]="optional.optionalContentFields === undefined || optional.optionalContentFields.length === 0"
+                                             [expanded]="optional.selected && optional.optionalContentFields !== undefined && optional.optionalContentFields.length !== 0">
+                          <mat-expansion-panel-header #panel (click)="panel._toggle()">
+                            <mat-panel-title>
+                              <div class="optional-content-item">
+                                <mat-checkbox (click)="panel._toggle()"
+                                              (change)="this.toggleOptionalSelected(optional, paragraph)"
+                                              [checked]="optional.selected"
+                                              color="primary">{{optional.title}}
+                                </mat-checkbox>
+                              </div>
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <div class="optional-content-input optional-content-indentation"
+                               *ngFor="let optionalInputField of optional.optionalContentFields">
+                            <mat-form-field appearance="fill"
+                                            *ngIf="optionalInputField.fieldName !=='Prämie/-n' && optionalInputField.fieldName !== 'Treueprämie' && !(optionalInputField.fieldName.match(dateRegex))">
+                              <mat-label>{{optionalInputField.fieldName}}</mat-label>
+                              <input
+                                [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][optionalInputField.formControlName]"
+                                matInput matTooltip="{{optionalInputField.fieldDescription}}"
+                                placeholder="{{optionalInputField.fieldName}}" [required]="optional.selected">
+                            </mat-form-field>
+                            <mat-form-field appearance="fill"
+                                            *ngIf="optionalInputField.fieldName !=='Prämie/-n' && optionalInputField.fieldName !== 'Treueprämie'&& (optionalInputField.fieldName.match(dateRegex))"
+                                            (click)="picker3.open()">
+                              <mat-label>{{optionalInputField.fieldName}}</mat-label>
+                              <input style="color: black" matInput [matDatepicker]="picker3"
+                                     [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][optionalInputField.formControlName]"
+                                     matTooltip="{{optionalInputField.fieldDescription}}"
+                                     placeholder="TT.MM.JJJJ" disabled
+                                     id="endDateInput3" [required]="optional.selected">
+                              <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <mat-checkbox
+                              (change)="toggleBonus(paragraph.paragraphNumber, optionalInputField.formControlName)"
+                              [checked]="hasBonus"
+                              color="primary" *ngIf="optionalInputField.fieldName === 'Prämie/-n'"></mat-checkbox>
+                            <mat-form-field style="width: 90%" appearance="fill"
+                                            *ngIf="optionalInputField.fieldName === 'Prämie/-n'">
+                              <textarea
+                                [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][optionalInputField.formControlName]"
+                                matInput matTooltip="{{optionalInputField.fieldDescription}}" rows="15"
+                                style="width: 100%; display: block"
+                                placeholder="{{optionalInputField.fieldName}}"
+                                [required]="(optional.selected && hasBonus)"></textarea>
+                            </mat-form-field>
+                            <mat-checkbox
+                              (change)="toggleLoyaltyBonus(paragraph.paragraphNumber, optionalInputField.formControlName)"
+                              [checked]="hasLoyaltyBonus"
+                              color="primary" *ngIf="optionalInputField.fieldName === 'Treueprämie'"></mat-checkbox>
+                            <mat-form-field appearance="fill" *ngIf="optionalInputField.fieldName === 'Treueprämie'">
+                              <input
+                                [formControl]="fourthFormGroup.get(paragraph.paragraphNumber)['controls'][optionalInputField.formControlName]"
+                                matInput matTooltip="{{optionalInputField.fieldDescription}}"
+                                placeholder="{{optionalInputField.fieldName}}"
+                                [required]="(optional.selected && hasLoyaltyBonus)">
+                            </mat-form-field>
+                          </div>
+
+                          <div *ngIf="!isLast">
+                            <mat-divider></mat-divider>
+                          </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel *ngIf="paragraph.selectionGroups && paragraph.optionalContents.indexOf(optional) !== (paragraph.optionalContents.length - 1) && optional.selectionGroup !== paragraph.optionalContents[paragraph.optionalContents.indexOf(optional) + 1].selectionGroup" class="mat-elevation-z0"
+                                             style="cursor: default;" hideToggle disabled>
+                          <mat-expansion-panel-header style="cursor: default;">
+                            <mat-panel-title style="cursor: not-allowed;">
+                              <div style="cursor: default;">
+                                <mat-divider></mat-divider>
+                              </div>
+
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+
+                        </mat-expansion-panel>
+                      </mat-accordion>
+                    </div>
+                    <br/>
+                    <mat-divider></mat-divider>
+                  </mat-card-actions>
+                  <div class="step-buttons" *ngIf="paragraph.paragraphNumber !== '1'">
+                    <button type="button" mat-stroked-button matStepperPrevious>ZURÜCK</button>
+                    <button type="button"
+                            [disabled]="fourthFormGroup.get(paragraph.paragraphNumber).invalid"
+                            mat-stroked-button matStepperNext>WEITER
+                    </button>
+                  </div>
+                  <div class="next-step-button" *ngIf="paragraph.paragraphNumber === '1'">
+                    <button type="button"
+                            [disabled]="fourthFormGroup.get(paragraph.paragraphNumber).invalid"
+                            mat-stroked-button matStepperNext>WEITER
+                    </button>
+                  </div>
+                </mat-card>
+              </div>
+            </mat-step>
+          </div>
+          <!--Special agreements stepper-->
+          <mat-step [completed]="specialAgreements.length !== 0">
+            <!--Stepper label-->
+            <ng-template matStepLabel>
+              <div class="paragraph-number">§ 25</div>
+              <div class="paragraph-title">Freitext Sondervereinbarung</div>
+            </ng-template>
+            <!--Stepper content-->
+            <form [formGroup]="wysiwygFormGroup">
+              <div class="content-card">
+                <mat-card class="card-shadow">
+                  <mat-card-actions>
+                    <div class="editor-container">
+                      <div class="editor-item">
+                        <!--<quill-editor formControlName="quillContent" (onBlur)="blur($event)"
+                                      (onEditorChanged)="changedEditor($event)"
+                                      (onEditorCreated)="created($event)"
+                                      (onFocus)="focus($event)" [modules]="quillConfig" [styles]="{height: '300px'}"
+                                      placeholder="Vereinbarung hier einfügen...">
+                        </quill-editor>-->
+                        <!--form field for test purpose only-->
+                        <mat-form-field style="width: 100%" appearance="fill">
+                            <textarea matInput formControlName="quillContent"
+                                      placeholder="Vereinbarung hier einfügen..." rows="20"></textarea>
+                        </mat-form-field>
+                      </div>
+                      <div class="gap-item">
+                        <button mat-fab color="primary" class="mat-elevation-z4" (click)="openDialog()">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="result-item">
+                        <mat-accordion>
+                          <mat-expansion-panel class="gap-between-panels"
+                                               *ngFor="let specialAgreement of specialAgreements">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                {{specialAgreement.title}}
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div
+                              class="special-agreements-background">{{specialAgreement.content.replace('|(n) ', '').replace(brRegex, '')}}</div>
+                            <mat-action-row>
+                              <button mat-button (click)="editSpecialAgreement(specialAgreement)">
+                                <mat-icon>edit</mat-icon>
+                              </button>
+                              <button mat-button color="red" (click)="deleteSpecialAgreement(specialAgreement)">
+                                <mat-icon color="warn">delete</mat-icon>
+                              </button>
+                            </mat-action-row>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                      </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                  </mat-card-actions>
+                  <div class="step-buttons">
+                    <button type="button" mat-stroked-button matStepperPrevious>ZURÜCK</button>
+                  </div>
+                </mat-card>
+              </div>
+            </form>
+          </mat-step>
+        </mat-stepper>
+        <!--Previous tab button-->
+        <div class="button-left">
+          <button mat-fab color="primary" class="mat-elevation-z4" (click)="previousTab()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+        <!--Next tab button-->
+        <div class="button-right">
+          <button type="submit" mat-fab color="primary" class="mat-elevation-z4" (click)="nextTab()"
+                  [disabled]="fourthFormGroup.invalid">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-tab>
+
+    <!--Fourth tab-->
+    <mat-tab
+      [disabled]="isNew || (sessionService.getSession().currentContract.contractVersionName !== sessionService.getSession().selectedContractVersionName) || (sessionService.getSession().currentContract.versionTemplateName !== sessionService.getSession().selectedVersionTemplateName) || fourthFormGroup.invalid">
+      <ng-template mat-tab-label>
+        ABSCHLUSS
+      </ng-template>
+      <hr/>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+      <div class="card-container-2">
+        <mat-card class="general">
+          <br/>
+          <div style="text-align:center">
+            <mat-card-title>
+              ORT/DATUM
+            </mat-card-title>
+          </div>
+          <br/>
+          <mat-card-actions>
+            <form [formGroup]="thirdFormGroup">
+
+              <p class="centered-input">
+                <mat-form-field appearance="fill">
+                  <mat-label>Ort</mat-label>
+                  <input matInput formControlName="placeOfSignature" placeholder="Ort" required>
+                </mat-form-field>
+              </p>
+
+              <p class="centered-input">
+                <mat-form-field (click)="picker.open()" appearance="fill">
+                  <mat-label>Datum</mat-label>
+                  <input style="color: black" matInput [matDatepicker]="picker" formControlName="dateOfSignature"
+                         disabled
+                         id="endDateInput" required>
+                  <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </p>
+            </form>
+          </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="signer">
+          <br/>
+          <div style="text-align:center">
+            <mat-card-title class="signee-title">
+              UNTERZEICHNER (ARBEITGEBER)
+              <button mat-button style="height: 32px" class="mat-elevation-z4" (click)="openSigneeDialog()">
+                Hinzufügen
+              </button>
+            </mat-card-title>
+          </div>
+          <br/>
+          <mat-card-actions>
+            <div class="editor-container-2">
+              <mat-card
+                style="margin-bottom: 5px; display: grid; grid-template-columns: auto 64px 64px; align-items: center;"
+                *ngFor="let signee of signees">
+                <div style="vertical-align: center;">
+                  {{signee.name + ', ' + signee.position}}
+                </div>
+                <button mat-button style="vertical-align: center;" (click)="editSignee(signee)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-button style="vertical-align: center;" color="red" (click)="deleteSignee(signee)">
+                  <mat-icon color="warn">delete</mat-icon>
+                </button>
+
+              </mat-card>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div class="button-left">
+        <button mat-fab color="primary" class="mat-elevation-z4" (click)="previousTab()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <!--Save contract button-->
+      <div class="button-right">
+        <button type="submit" mat-fab color="primary" class="mat-elevation-z4" (click)="saveContract()"
+                [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid || (signees.length === 0) || fourthFormGroup.invalid">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ngcontainer>

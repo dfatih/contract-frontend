@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "application.fullname" . -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-ingress-https
+  namespace: {{ .Values.namespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ include "application.ingress.host" . }}`)
+      kind: Rule
+      middlewares:
+        - name: oauth2-middleware
+      services:
+        - kind: Service
+          name: {{ $fullName }}
+          port: {{ .Values.service.port }}
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-ingress-http
+  namespace: {{ .Values.namespace }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ include "application.ingress.host" . }}`)
+      kind: Rule
+      middlewares:
+        - name: tls-redirect
+          namespace: traefik
+      services:
+        - kind: Service
+          name: {{ $fullName }}
+          port: {{ .Values.service.port }}
+{{- end }}

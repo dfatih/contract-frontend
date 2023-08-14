@@ -1,0 +1,48 @@
+/*.inline-block{
+  display: inline-block;
+  margin: 5%;
+  width: 40%;
+  vertical-align:top;
+}*/
+
+.card-container-0 {
+  display: flex;
+  justify-content: center;
+}
+
+.card-container-1 {
+  margin-top: 51px;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  display: inline-grid;
+  grid-template-columns: 548px;
+}
+
+.card-container-2 {
+  margin-top: 51px;
+  margin-left: 30px;
+  margin-bottom: 10px;
+  display: inline-grid;
+  grid-template-columns: 548px;
+}
+
+.card-item {
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/*.mat-card-title{
+  text-align: center;
+  margin-bottom: 20px;
+}*/
+
+/*.radio-button-card{
+  margin: 0% 2.5%;
+}*/
+
+.radio-button-font {
+  font-family: Inter;
+}
+
+.option {
+  margin-bottom: 10px;
+}

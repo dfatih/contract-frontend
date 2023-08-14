@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="contract-list.component.css">
+<mat-progress-bar mode="indeterminate" *ngIf="!isListReady"></mat-progress-bar>
+<mat-progress-bar *ngIf="download$ | async as download"
+                  [mode]="download.state == 'PENDING' ? 'buffer' : 'determinate'"
+                  [value]="download.progress"></mat-progress-bar>
+<div class="mat-elevation-z8" style="overflow-x:auto;" *ngIf="isListReady">
+
+  <div class="input">
+  <mat-form-field appearance="outline">
+  <mat-label>Suche</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+  </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="company">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Firma</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.company.shortName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="versionTemplateName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Template</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.versionTemplateName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contractVersionName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Version</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.contractVersionName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Datum </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.lastEdit | date: 'dd.MM.yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.candidate.firstName}} {{row.candidate.lastName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.candidate.streetNumber === '' ? row.candidate.residence : row.candidate.street + ' ' + row.candidate.streetNumber + ', ' + row.candidate.zipCode + ' ' + row.candidate.residence}}</mat-cell>
+    </ng-container>
+
+    <ng-container class ="ngdelete" matColumnDef="actions">
+      <mat-header-cell  *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div class = "option-botton" style="display: grid; grid-template-columns: 50% 50%">
+          <button class="download" mat-stroked-button color="primary" matTooltip="Vertrag herunterladen" (click)="downloadContract(row); $event.stopPropagation();"><mat-icon class="download">arrow_downward</mat-icon></button>
+          <button class="löschen" mat-stroked-button color="warn" matTooltip="Vertrag löschen"  (click)="deleteContract(row.id, row.candidateId); $event.stopPropagation();"><mat-icon class ="löschen">delete</mat-icon></button>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+
+    <!-- Header and Row Declarations -->
+    <mat-header-row *matHeaderRowDef="['company','contractVersionName', 'versionTemplateName',  'date', 'name','address', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: [ 'company','contractVersionName', 'versionTemplateName', 'date', 'name','address', 'actions']" (click)="editContact(row.id, row.company.shortName)"></mat-row>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">{{input.value}} </td>
+    </tr>
+
+  </table>
+
+  <br>
+  <div class="addBtn">
+    <button mat-fab color="primary" matTooltip="Neuen Vertrag erstellen"
+            (click)="openErstellenComponent()">
+      <mat-icon>post_add</mat-icon>
+    </button>
+  </div>
+
+  <mat-paginator
+    [pageSize]="20"
+    aria-label="Select page">
+  </mat-paginator>
+</div>
+

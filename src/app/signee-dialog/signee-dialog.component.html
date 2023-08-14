@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Unterzeichner hinzufügen</h1>
+<div mat-dialog-content>
+  <p>Bitte gib einen Unterzeichner zum Speichern an!</p>
+  <br/>
+  <form [formGroup]="signeeDialogFormGroup" *ngIf="isSigneeDialogFormGrouReady">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" placeholder="z.B. Mustermann" required>
+      <mat-error>Es wird ein Name benötigt.</mat-error>
+    </mat-form-field>
+    <br/>
+    <mat-form-field appearance="fill">
+      <mat-label>Position</mat-label>
+      <input type="text" matInput formControlName="position" placeholder="z.B. Geschäftsführer" required>
+      <mat-error>Es wird eine Position benötigt.</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Abbrechen</button>
+  <button mat-raised-button type="submit" (click)="submitSignee()"  [disabled]="!signeeDialogFormGroup.valid">Speichern</button>
+</div>

@@ -1,0 +1,8 @@
+{
+    "backend": "https://contract-generator-backend.prod.kriegerit.de/",
+    "sushiMenuBackendPath": "https://sushi-menu-backend.prod.kriegerit.de/",
+    "sushiMenuFrontendPath": "https://sushi-menu.prod.kriegerit.de/",
+    "userBackendPath": "https://employee-service.prod.kriegerit.de/",
+    "userInfoMenuFrontendPath": "https://user-info-menu.prod.kriegerit.de/",
+    "version": "0.2.1"
+}

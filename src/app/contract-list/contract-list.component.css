@@ -1,0 +1,88 @@
+.mat-elevation-z8{
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-right: 10px;
+  margin-left: 10px;
+
+}
+
+::ng-deep mat-checkbox.yourcheckbox .mat-checkbox-frame{
+  border: 0px;
+}
+
+
+.mat-form-field{
+  position:relative;
+  width: 10%;
+  height: 5%;
+  margin-top: 2%;
+  margin-left: 1%;
+
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -ms-appence: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+}
+
+
+
+table {
+  width: 100%;
+  background-color: white;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #f4f7fc;
+}
+
+.mat-row:nth-child(odd) {
+  background-color: white;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 50%;
+}
+
+.mat-paginator {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+.option-botton button {
+  border: none;
+  color: #80b5ea;
+  display: inline-block;
+}
+
+.löschen{
+  color: red;
+  margin-right: 10px;
+}
+
+.download{
+  color: #3f51b5;
+  margin-left: 2px;
+}
+
+.addBtn{
+  right: 20px;
+  bottom: 20px;
+  position: fixed;
+
+}
+.icon-header{
+  margin-right:5px;
+}
+
+.mat-form-field{
+  width: 250px;
+}
+
+.mat-row:hover {
+  background-color: #E0E4EC;
+}

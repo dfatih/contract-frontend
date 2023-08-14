@@ -1,0 +1,25 @@
+image: maven.kriegerit.de:18444/krieger/infrastructure/docker-images/base/ubuntu
+
+stages:
+  - version
+  - build
+  - package
+  - deploy
+
+include:
+
+  - project: 'krieger/infrastructure/ci-templates'
+    ref: ubuntu2110
+    file: 'build.angular-snapshot-and-release.gitlab-ci.yml'
+
+  - project: 'krieger/infrastructure/ci-templates'
+    ref: 3.0.0
+    file: 'package-and-deploy.helm-create-and-release.gitlab-ci.yml'
+
+  - project: 'krieger/infrastructure/ci-templates'
+    ref: 3.0.0
+    file: 'package.docker-create-and-push-angular-apps.gitlab-ci.yml'
+
+  - project: 'krieger/infrastructure/ci-templates'
+    ref: 3.0.0
+    file: 'deploy.k8s-deploy-and-delete.gitlab-ci.yml'

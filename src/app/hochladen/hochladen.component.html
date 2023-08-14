@@ -1,0 +1,49 @@
+<h2>Unterschriebenen Vertrag hochladen:</h2>
+<div class="content">
+<!-- #docregion label-position -->
+<mat-horizontal-stepper labelPosition="bottom" #stepper>
+  <!-- #enddocregion label-position -->
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Vertrag hochladen</ng-template>
+      <h1>Unterschriebenen Vertrag einreichen</h1>
+      <div>
+        <input type="file" #fileInput placeholder="Upload file..." />
+        <button type="button" (click)="upload()">Upload</button>
+      </div>
+      <div>
+        <button mat-button matStepperNext style="margin-left:650px;">Weiter</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" optional>
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Omne hochladen</ng-template>
+      <h1>Omne hochladen</h1>
+      <div>
+        <input type="file" #fileInput placeholder="Upload file..." />
+        <button type="button" (click)="upload()">Upload</button>
+      </div>
+      <div>
+        <!-- #docregion buttons -->
+        <button mat-button matStepperPrevious>Zur&uuml;ck</button>
+        <button mat-button matStepperNext style="float: right;">Weiter</button>
+        <!-- #enddocregion buttons -->
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Personalbogen hochladen</ng-template>
+    <h1>Ausgefüllten Personalbogen hochladen</h1>
+    <div>
+      <input type="file" #fileInput placeholder="Upload file..." />
+      <button type="button" (click)="upload()">Upload</button>
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Zur&uuml;ck</button>
+      <button mat-button (click)="stepper.reset()">Alles zur&uuml;cksetzen</button>
+      <button mat-button matStepperNext style="float: right;">Hochladen abschlie&szlig;en</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+</div>

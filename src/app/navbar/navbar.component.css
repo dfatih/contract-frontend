@@ -1,0 +1,16 @@
+#contract-icon{
+  height: 40px;
+  width: 30px;
+}
+
+.spacer{
+  flex: 1 1 auto;
+}
+
+.mat-icon{
+  margin-right: 25px;
+  margin-bottom: 10px;
+  font-size:36px;
+}
+
+

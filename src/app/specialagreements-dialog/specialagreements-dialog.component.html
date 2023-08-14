@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Vereinbarung speichern?</h1>
+<div mat-dialog-content>
+  <p>Bitte gib einen Namen zum Speichern an!</p>
+  <br/>
+  <mat-form-field appearance="fill">
+    <mat-label>Titel</mat-label>
+    <input type="text" matInput [(ngModel)]="data.title" placeholder="z.B. Vereinbarung 1" required>
+    <mat-error>Es wird ein Name benötigt.</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Abbrechen</button>
+  <button mat-raised-button [mat-dialog-close]="data.title" [disabled]="!data.title">Speichern</button>
+</div>

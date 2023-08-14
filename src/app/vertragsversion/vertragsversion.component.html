@@ -1,0 +1,45 @@
+<form [formGroup]="form">
+  <div class="card-container-0">
+    <div class="card-container-1">
+      <mat-card class="card-item">
+        <br/>
+        <div style="text-align: center">
+          <mat-card-title>VERTRAGSVERSION</mat-card-title>
+        </div>
+        <br/>
+        <mat-card-content>
+          <mat-radio-group [(ngModel)]="vertragsVersionSelected">
+            <mat-card *ngFor="let elem of contractVersions" class="option">
+              <mat-radio-button (click)="setVersion(elem.name)" (change)="showcontent = $event.value"
+                                [value]="elem.name" [checked]="form.get(elem.name).value">
+                <div class="radio-button-font">{{elem.name}}</div>
+              </mat-radio-button>
+            </mat-card>
+          </mat-radio-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="card-container-2">
+      <mat-card class="card-item">
+        <br/>
+        <div style="text-align: center">
+          <mat-card-title>TEMPLATE</mat-card-title>
+        </div>
+        <br/>
+        <mat-card-content>
+          <ng-container *ngFor="let elem of contractVersions" [(ngModel)]="vertragsVersionSelected">
+            <mat-radio-group *ngIf="showcontent && elem === vertragsVersionSelected">
+              <mat-card *ngFor="let templateName of vertragsVersionSelected.templateNames" class="option">
+                <mat-radio-button (click)="setTemplate(templateName)" [value]="templateName"
+                                  [checked]="form.get(templateName).value">
+                  <div class="radio-button-font">{{templateName}}</div>
+                </mat-radio-button>
+              </mat-card>
+            </mat-radio-group>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</form>
+

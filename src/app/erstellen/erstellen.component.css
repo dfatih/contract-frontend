@@ -1,0 +1,250 @@
+.top-box-shadow {
+  /*shadow on top box of tab section:*/
+  box-shadow: 0 -3px 5px -3px rgba(0,0,0,0.1);
+}
+
+hr {
+  /*primary colored line below tab section:*/
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 4px solid #3f51b5;
+  margin: 0em 0;
+  padding: 0;
+}
+
+.card-container {
+  margin-top: 51px;
+  margin-bottom: 10px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 225px 548px;
+  grid-column-gap: 175px;
+  grid-template-rows: auto;
+}
+
+.employer-card {
+  height: 285px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.employee-card {
+  /*box shadow around card:*/
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.gap-between-inputs .mat-form-field + .mat-form-field {
+  margin-left: 40px;
+}
+
+.centered-card-headline {
+  text-align: center;
+}
+
+.centered-input {
+  text-align: center;
+}
+
+.content-card {
+  margin-left: 20%;
+  margin-right: 5%;
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 85%;
+  grid-template-rows: auto;
+}
+
+.card-shadow {
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.content-input-gap .mat-form-field {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.indentation {
+  margin-left: 23px;
+}
+
+.paragraph-number {
+  font-family: Inter;
+  font-weight: bold;
+  font-size: 17px;
+  text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14);
+  color: #3f51b5;
+}
+
+.paragraph-title {
+  font-family: Inter;
+  color: #808080;
+}
+
+.content-optional {
+  font-size: 20px;
+}
+
+.optional-content-item {
+  margin-right: 20px;
+  color: black;
+}
+
+.editor-container {
+  height: auto;
+  display: grid;
+  grid-template-columns: 48.5% 3% 48.5%;
+  margin: 10px;
+}
+
+.editor-container-2 {
+  height: auto;
+  margin: 10px;
+}
+
+.signee-title {
+  margin-bottom: auto;
+  alignment: top;
+}
+
+.editor-item{
+  z-index: 1;
+}
+
+.gap-item {
+  margin-top: 150px;
+  z-index: 2;
+  justify-self: center;
+}
+
+.gap-item-2 {
+  margin-top: 60px;
+  z-index: 2;
+  justify-self: center;
+}
+
+.result-item {
+  z-index: 1;
+}
+
+.gap-between-panels {
+  margin-bottom: 10px;
+  border-top: 10px;
+}
+
+.optional-content-input  .mat-form-field {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.optional-content-indentation {
+  margin-left: 24px;
+}
+
+.mandatory {
+  color: #666666;
+}
+
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.next-step-button {
+  display: flex;
+  justify-content: right;
+}
+
+.button-right {
+  position: fixed;
+  bottom: 7em;
+  right: 17em;
+  z-index: 3;
+}
+
+.button-left {
+  position: fixed;
+  bottom: 7em;
+  left: 17em;
+  z-index: 3;
+}
+
+.content{
+  display: flex;
+  background-color: #f5f5f5;
+  justify-content: center;
+  height:auto;
+}
+.form-control {
+  width: 350%;
+}
+
+::ng-deep .mat-checkbox-label {
+  font-weight: normal;
+}
+/*.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {*/
+/*  box-shadow: inset 0px 1px 0px 0px #ffffff;*/
+/*  background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);*/
+/*  background-color: #ffffff;*/
+/*  border-radius: 4px;*/
+/*  border: 1px solid #dcdcdc;*/
+/*  display: inline-block;*/
+/*  cursor: pointer;*/
+/*  color: #3f51b5;*/
+/*  font-family: Arial, sans-serif;*/
+/*  font-size: 15px;*/
+/*  font-weight: bold;*/
+/*  text-decoration: none;*/
+/*  text-shadow: 0px 1px 0px #ffffff;*/
+/*  outline: 0;*/
+/*  margin-top:30px;*/
+/*}*/
+
+.inputFields {
+  border: none;
+  float:left;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  padding-right: 5px;
+  border-radius: 2px;
+}
+
+.selectedCheckbox {
+  margin: 0 12px;
+  z-index: 25;
+}
+
+.halfSizeStep {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.card-container-2 {
+  margin-top: 51px;
+  margin-bottom: 10px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: auto auto;
+  grid-column-gap: 175px;
+  grid-template-rows: auto;
+}
+
+.general{
+  width:300px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.signer{
+  width:600px;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.inputs{
+  width:150px;
+}
+
+::ng-deep.mat-datepicker-content.mat-calendar {
+  width: 229px!important;
+}
